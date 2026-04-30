@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkyNova - Регистрация</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Georgia", serif;
+        background: linear-gradient(
+          135deg,
+          #1a1a2e 0%,
+          #16213e 50%,
+          #0f3460 100%
+        );
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.97);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 48px;
+        width: 100%;
+        max-width: 480px;
+        position: relative;
+      }
+
+      .logo {
+        text-align: center;
+        margin-bottom: 8px;
+        font-size: 32px;
+        font-weight: bold;
+        color: #0f3460;
+        letter-spacing: 2px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: #666;
+        margin-bottom: 32px;
+        font-size: 14px;
+        font-style: italic;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: #333;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .required::after {
+        content: " *";
+        color: #e74c3c;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      input[type="tel"],
+      input[type="date"],
+      select {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        font-family: inherit;
+        transition: border-color 0.2s;
+      }
+
+      input:focus,
+      select:focus {
+        outline: none;
+        border-color: #0f3460;
+      }
+
+      .password-wrapper {
+        position: relative;
+      }
+
+      .toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #666;
+        font-size: 12px;
+      }
+
+      .password-strength {
+        margin-top: 6px;
+        font-size: 12px;
+        height: 16px;
+      }
+
+      .strength-weak {
+        color: #e74c3c;
+      }
+      .strength-medium {
+        color: #f39c12;
+      }
+      .strength-strong {
+        color: #27ae60;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .checkbox-group input {
+        margin-top: 3px;
+      }
+
+      .checkbox-group label {
+        margin-bottom: 0;
+        font-weight: normal;
+        font-size: 13px;
+        color: #555;
+      }
+
+      .checkbox-group a {
+        color: #0f3460;
+        text-decoration: underline;
+      }
+
+      button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background: #0f3460;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.2s;
+        margin-top: 8px;
+      }
+
+      button[type="submit"]:hover {
+        background: #16213e;
+      }
+
+      .error-message {
+        color: #e74c3c;
+        font-size: 12px;
+        margin-top: 4px;
+        min-height: 16px;
+      }
+
+      .success-message {
+        background: #d4edda;
+        color: #155724;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        display: none;
+        text-align: center;
+      }
+
+      .login-link {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 14px;
+        color: #666;
+      }
+
+      .login-link a {
+        color: #0f3460;
+        font-weight: 600;
+        text-decoration: none;
+      }
+
+      .row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .row .form-group {
+        flex: 1;
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 24px;
+        }
+        .row {
+          flex-direction: column;
+          gap: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="logo">SkyNova</div>
+      <div class="subtitle">Создайте свой аккаунт за минуту</div>
+
+      <div class="success-message" id="successMessage">
+        Регистрация прошла успешно! Проверьте вашу почту.
+      </div>
+
+      <form id="registrationForm" novalidate>
+        <div class="form-group">
+          <label for="firstName" class="required">Имя</label>
+          <input type="text" id="firstName" name="firstName" maxlength="50" />
+          <div class="error-message" id="firstNameError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="required">Email</label>
+          <input type="email" id="email" name="email" />
+          <div class="error-message" id="emailError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Телефон</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            placeholder="+7 (999) 123-45-67"
+          />
+          <div class="error-message" id="phoneError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="birthDate">Дата рождения</label>
+          <input type="date" id="birthDate" name="birthDate" />
+          <div class="error-message" id="birthDateError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="required">Пароль</label>
+          <div class="password-wrapper">
+            <input type="password" id="password" name="password" />
+            <button type="button" class="toggle-password" id="togglePassword">
+              Показать
+            </button>
+          </div>
+          <div class="password-strength" id="passwordStrength"></div>
+          <div class="error-message" id="passwordError"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="required">Повторите пароль</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" />
+          <div class="error-message" id="confirmPasswordError"></div>
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="terms" name="terms" />
+          <label for="terms"
+            >Я принимаю
+            <a
+              href="https://www.iubenda.com/privacy-policy/sample"
+              target="_blank"
+              >условия использования</a
+            >
+            и
+            <a
+              href="https://www.iubenda.com/privacy-policy/sample"
+              target="_blank"
+              >политику конфиденциальности</a
+            ></label
+          >
+        </div>
+
+        <div class="checkbox-group">
+          <input type="checkbox" id="newsletter" name="newsletter" checked />
+          <label for="newsletter"
+            >Подписаться на рассылку новостей и специальных предложений</label
+          >
+        </div>
+
+        <button type="submit">Зарегистрироваться</button>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("registrationForm");
+      const successMessage = document.getElementById("successMessage");
+      const passwordInput = document.getElementById("password");
+      const togglePasswordBtn = document.getElementById("togglePassword");
+      const passwordStrength = document.getElementById("passwordStrength");
+
+      // BUG #1: Кнопка "Показать пароль" работает только один раз - не переключается обратно
+      togglePasswordBtn.addEventListener("click", function () {
+        passwordInput.type = "text";
+        togglePasswordBtn.textContent = "Показать";
+      });
+
+      // BUG #2: Индикатор силы пароля показывает "Сильный" уже при 4 символах
+      passwordInput.addEventListener("input", function () {
+        const password = this.value;
+        if (password.length === 0) {
+          passwordStrength.textContent = "";
+          passwordStrength.className = "password-strength";
+        } else if (password.length < 4) {
+          passwordStrength.textContent = "Слабый пароль";
+          passwordStrength.className = "password-strength strength-weak";
+        } else {
+          passwordStrength.textContent = "Сильный пароль";
+          passwordStrength.className = "password-strength strength-strong";
+        }
+      });
+
+      function validateEmail(email) {
+        // BUG #3: Регулярка пропускает email без точки в домене (например "test@test")
+        const re = /^[^\s@]+@[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function validatePhone(phone) {
+        if (phone === "") return true;
+        // BUG #4: Валидация телефона принимает буквы (проверяет только длину)
+        return phone.length >= 10;
+      }
+
+      function clearErrors() {
+        document
+          .querySelectorAll(".error-message")
+          .forEach((el) => (el.textContent = ""));
+      }
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        clearErrors();
+
+        const firstName = document.getElementById("firstName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const birthDate = document.getElementById("birthDate").value;
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const terms = document.getElementById("terms").checked;
+
+        let hasError = false;
+
+        // BUG #5: Валидация имени не проверяет на пустоту, если ввели только пробелы
+        // (trim уже применили, но ошибку не показываем при пустом значении)
+        if (firstName.length > 0 && firstName.length < 2) {
+          document.getElementById("firstNameError").textContent =
+            "Имя должно содержать минимум 2 символа";
+          hasError = true;
+        }
+
+        if (!validateEmail(email)) {
+          document.getElementById("emailError").textContent =
+            "Введите корректный email";
+          hasError = true;
+        }
+
+        if (!validatePhone(phone)) {
+          document.getElementById("phoneError").textContent =
+            "Введите корректный номер телефона";
+          hasError = true;
+        }
+
+        // BUG #6: Не проверяется, что дата рождения в прошлом (можно указать дату из будущего)
+        // BUG #7: Нет проверки минимального возраста (например, 14+ или 18+)
+        if (birthDate === "") {
+          // Дата рождения вообще не обязательна, но и не валидируется
+        }
+
+        // BUG #8: Минимальная длина пароля - всего 4 символа (должно быть минимум 8)
+        if (password.length < 4) {
+          document.getElementById("passwordError").textContent =
+            "Пароль должен содержать минимум 4 символа";
+          hasError = true;
+        }
+
+        // BUG #9: Сравнение паролей чувствительно к регистру, но сообщение об ошибке вводит в заблуждение
+        // На самом деле баг в том, что если оба поля пустые - проверка не срабатывает
+        if (password !== confirmPassword) {
+          document.getElementById("confirmPasswordError").textContent =
+            "Пароли не совпадают";
+          hasError = true;
+        }
+
+        // BUG #10: При не принятых условиях - ошибка не показывается, форма просто молча не отправляется
+        if (!terms) {
+          hasError = true;
+          // Отсутствует вывод сообщения об ошибке
+        }
+
+        if (!hasError) {
+          // BUG #11: При успешной отправке поля формы не очищаются, кроме того
+          // успешное сообщение показывается, но форма остается видимой и можно отправить еще раз
+          successMessage.style.display = "block";
+          window.scrollTo(0, 0);
+
+          // BUG #12: Данные пароля выводятся в консоль (нарушение безопасности)
+          console.log("Регистрация успешна:", {
+            firstName,
+            email,
+            phone,
+            password,
+          });
+        }
+      });
+
+      // BUG (бонус): Поле email не имеет атрибута autocomplete, а пароль имеет autocomplete="off"
+      // что заставляет пользователя вводить email каждый раз
+    </script>
+  </body>
+</html>
