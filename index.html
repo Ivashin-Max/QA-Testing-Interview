@@ -204,6 +204,89 @@
         flex: 1;
       }
 
+      .help-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 1px solid #0f3460;
+        background: #fff;
+        color: #0f3460;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: inherit;
+        transition: background 0.2s, color 0.2s;
+      }
+
+      .help-btn:hover {
+        background: #0f3460;
+        color: #fff;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        padding: 20px;
+      }
+
+      .modal-overlay.is-open {
+        display: flex;
+      }
+
+      .modal {
+        background: #fff;
+        border-radius: 16px;
+        padding: 32px;
+        max-width: 480px;
+        width: 100%;
+        position: relative;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 8px;
+        right: 12px;
+        width: 32px;
+        height: 32px;
+        border: none;
+        background: none;
+        font-size: 28px;
+        color: #666;
+        cursor: pointer;
+        line-height: 1;
+        font-family: inherit;
+      }
+
+      .modal-close:hover {
+        color: #0f3460;
+      }
+
+      .modal-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #0f3460;
+        margin-bottom: 16px;
+        padding-right: 32px;
+      }
+
+      .modal-body {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.6;
+      }
+
       @media (max-width: 480px) {
         .container {
           padding: 24px;
@@ -217,6 +300,7 @@
   </head>
   <body>
     <div class="container">
+      <button class="help-btn" id="helpBtn" type="button" aria-label="Показать задание">?</button>
       <div class="logo">SkyNova</div>
       <div class="subtitle">Создайте свой аккаунт за минуту</div>
 
@@ -301,12 +385,30 @@
       </form>
     </div>
 
+    <div class="modal-overlay is-open" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+      <div class="modal">
+        <button class="modal-close" id="modalClose" type="button" aria-label="Закрыть">&times;</button>
+        <div class="modal-title" id="taskModalTitle">Задание</div>
+        <div class="modal-body">
+          Перед вами форма регистрации сервиса SkyNova.<br /><br />
+          Протестируйте её и зафиксируйте найденные дефекты.
+        </div>
+      </div>
+    </div>
+
     <script>
       const form = document.getElementById("registrationForm");
       const successMessage = document.getElementById("successMessage");
       const passwordInput = document.getElementById("password");
       const togglePasswordBtn = document.getElementById("togglePassword");
       const passwordStrength = document.getElementById("passwordStrength");
+
+      const helpBtn = document.getElementById("helpBtn");
+      const taskModal = document.getElementById("taskModal");
+      const modalClose = document.getElementById("modalClose");
+
+      helpBtn.addEventListener("click", () => taskModal.classList.add("is-open"));
+      modalClose.addEventListener("click", () => taskModal.classList.remove("is-open"));
 
       // BUG #1: Кнопка "Показать пароль" работает только один раз - не переключается обратно
       togglePasswordBtn.addEventListener("click", function () {
