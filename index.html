@@ -221,7 +221,9 @@
         align-items: center;
         justify-content: center;
         font-family: inherit;
-        transition: background 0.2s, color 0.2s;
+        transition:
+          background 0.2s,
+          color 0.2s;
       }
 
       .help-btn:hover {
@@ -300,7 +302,14 @@
   </head>
   <body>
     <div class="container">
-      <button class="help-btn" id="helpBtn" type="button" aria-label="Показать задание">?</button>
+      <button
+        class="help-btn"
+        id="helpBtn"
+        type="button"
+        aria-label="Показать задание"
+      >
+        ?
+      </button>
       <div class="logo">SkyNova</div>
       <div class="subtitle">Создайте свой аккаунт за минуту</div>
 
@@ -360,15 +369,9 @@
           <input type="checkbox" id="terms" name="terms" />
           <label for="terms"
             >Я принимаю
-            <a
-              href="https://www.iubenda.com/privacy-policy/sample"
-              target="_blank"
-              >условия использования</a
-            >
+            <a href="https://ya.ru" target="_blank">условия использования</a>
             и
-            <a
-              href="https://www.iubenda.com/privacy-policy/sample"
-              target="_blank"
+            <a href="https://ya.ru" target="_blank"
               >политику конфиденциальности</a
             ></label
           >
@@ -385,9 +388,22 @@
       </form>
     </div>
 
-    <div class="modal-overlay is-open" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="taskModalTitle">
+    <div
+      class="modal-overlay is-open"
+      id="taskModal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="taskModalTitle"
+    >
       <div class="modal">
-        <button class="modal-close" id="modalClose" type="button" aria-label="Закрыть">&times;</button>
+        <button
+          class="modal-close"
+          id="modalClose"
+          type="button"
+          aria-label="Закрыть"
+        >
+          &times;
+        </button>
         <div class="modal-title" id="taskModalTitle">Задание</div>
         <div class="modal-body">
           Перед вами форма регистрации сервиса SkyNova.<br /><br />
@@ -407,8 +423,12 @@
       const taskModal = document.getElementById("taskModal");
       const modalClose = document.getElementById("modalClose");
 
-      helpBtn.addEventListener("click", () => taskModal.classList.add("is-open"));
-      modalClose.addEventListener("click", () => taskModal.classList.remove("is-open"));
+      helpBtn.addEventListener("click", () =>
+        taskModal.classList.add("is-open"),
+      );
+      modalClose.addEventListener("click", () =>
+        taskModal.classList.remove("is-open"),
+      );
 
       // BUG #1: Кнопка "Показать пароль" работает только один раз - не переключается обратно
       togglePasswordBtn.addEventListener("click", function () {
